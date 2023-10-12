@@ -1,0 +1,92 @@
+---
+title: "Basic Data Analysis"
+author: "Nausheen Husain"
+toc: true
+number-sections: true
+format:
+  html:
+    theme: default
+    code-fold: true
+    code-tools: true
+    code-line-numbers: true
+  pdf:
+    geometry: 
+      - top=30mm
+      - left=30mm
+  docx: default
+project:
+  type: website
+  output-dir: docs
+---
+
+## Introduction
+
+In this document, we'll mess around with R, Quarto and basic data analysis. We'll be using the R libraries `tidyverse` and `ggplot2` to ask and answer basic questions about our datasets.  
+
+The data I'm using was collected by me on Saturday, October 7, the first day of fall break, and it includes the day, time of day, person, and topic of each text I sent or received that day. The data was originally collected in a [Google Sheet](https://docs.google.com/spreadsheets/d/1cDlV0KA-kxuWcnsTHyYITlEchKk3_E50md-vvxsHXBA/edit#gid=0). Your data should have the same format though the time frame may be different. **Add a link to your Google Sheet here.**
+
+
+```{r}
+#| label: load-pkgs
+#| code-summary: "Packages"
+#| message: false
+
+library(tidyverse)
+library(ggplot2)
+```
+
+## Securing our data
+
+```{r}
+#| label: data-head
+
+all_texts <- read.csv("text_data.csv",stringsAsFactors=F) #this sets my data file to live within a variable called all_texts
+head(all_texts) #this command shows us the 'head' of all_texts -- the first few rows of the data
+
+```
+
+The above code imports my CSV into the universe of this R file -- now the R file can read and use this data. Above is the 'head' of the data: the first few rows of it. Because this file and your text data are both saved to your Desktop, the first few rows of your data should show up here.
+
+## Examining our data: work in pairs
+Sometimes we don't want to display something on our Viewer, we just want more information about our data. R allows you to do some basic data interviewing with just one line of code at a time. Type the following lines of code (the text before the #), one at a time, in your console. Compare what you get with a partner. To the right of the #, where it says "Comment here," comment what you and your partner think each line of code does, based on what happens in your console. 
+**Important: do not copy and paste. Type the code into the console, one by one. Take your time, and make sure your partner is on the same page as you.**
+
+1. ` install.packages("tidyverse") #Comment here `
+2. ` library("tidyverse") #Comment here `
+3. ` install.packages("ggplot2") #Comment here `
+4. ` library("ggplot2") #Comment here `
+5. ` all_texts %>% nrow() #Comment here `
+6. ` all_texts %>% glimpse() #Comment here `
+7. ` all_texts %>% count(person) #Comment here `
+8. ` all_texts %>% filter(topic == "INSERT ONE OF YOUR TOPICS FROM YOUR DATA HERE") %>% count() #Comment here `
+
+## Discussion break
+* What is a %>% ? What does it do?  
+* Write a question here, in simple English, that describes what #8 answers for us:  
+
+## Who did you text the most in this time period?
+One of our prompts above answers this question. Let's write a R code chunk to make it show up in our Viewer:
+
+```{r}
+#| label: most-texts
+
+all_texts %>% count(person)
+
+```
+
+Based on this breakdown, your answer is: _______.
+
+Discuss with your partner: how would you put any row of data where the 'person' is the above person into its own variable called 'most_texts'? **Hint: research how `filter` works.** How would you check if you did this correctly? Once we know how to do this, we'll add the correct line of code to the above code chunk.
+
+## What would a simple bar chart of topics look like ?
+
+```{r}
+#| label: fig-bar
+#| fig-cap: "Texts from Saturday by topic"
+
+ggplot(data = all_texts, aes(y=topic)) + geom_bar(fill = "maroon")
+
+```
+
+What is one takeaway for you from @fig-bar?
+

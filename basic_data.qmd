@@ -54,7 +54,7 @@ Sometimes we don't want to display something on our Viewer, we just want more in
 1. ` install.packages("tidyverse") #Comment here `
 2. ` library("tidyverse") #Comment here `
 3. ` install.packages("ggplot2") #Comment here `
-4. ` library("ggplot2") #Comment here `
+4. ` library("ggplot2") #loads ggplot to my rstudio `
 5. ` all_texts %>% nrow() #Comment here `
 6. ` all_texts %>% glimpse() #Comment here `
 7. ` all_texts %>% count(person) #Comment here `
@@ -62,7 +62,7 @@ Sometimes we don't want to display something on our Viewer, we just want more in
 
 ## Discussion break
 * What is a %>% ? What does it do?  
-* Write a question here, in simple English, that describes what #8 answers for us:  
+* Write a question here, in simple English, that describes what #8 answers for us: How many times does xxxx appear as a topic in this dataset? How many 'fun' texts did I send or receive throughout my few days of self-tracking texts?
 
 ## Who did you text the most in this time period?
 One of our prompts above answers this question. Let's write a R code chunk to make it show up in our Viewer:
@@ -71,10 +71,11 @@ One of our prompts above answers this question. Let's write a R code chunk to ma
 #| label: most-texts
 
 all_texts %>% count(person)
-
+most_texts <- all_texts %>% filter(person == "Sam")
+glimpse(most_texts)
 ```
 
-Based on this breakdown, your answer is: _______.
+Based on this breakdown, your answer is: Sam.
 
 Discuss with your partner: how would you put any row of data where the 'person' is the above person into its own variable called 'most_texts'? **Hint: research how `filter` works.** How would you check if you did this correctly? Once we know how to do this, we'll add the correct line of code to the above code chunk.
 
@@ -90,3 +91,17 @@ ggplot(data = all_texts, aes(y=topic)) + geom_bar(fill = "maroon")
 
 What is one takeaway for you from @fig-bar?
 
+
+## Now that we've practiced some R functions, let's shift to our story. What are questions you have for the police crash dataset?
+* In categories with many blanks such as Grand Total, Net Loss, Loss, Insured, Appraisal Fee, what percentage of the responses are left blank or void?
+* What month do the majority of these incidents occur in? (perhaps is could be seasonally related)
+* What rank has acquired the most crashes (sergeant, officer, lieutenant)?
+* How many officers were on duty vs. off duty while they crashed?
+* How many police officers were in multiple accidents?
+* Which police officer is involved in the most crashes?
+* During what time of day do we see the least number of crashes?
+* How many cases go over $500 worth of damage?
+* What was the most issued penalty (what repercussions did the officers face) and how major depending on the accident severity? 
+* Has the rate of police vehicle crashes risen or fallen over time? (This can be analyzed by looking at the date column and categorizing the crashes by month or year to determine a point in time when the most crashes occurred, any irregularities in the data over time, or trends over time)
+* What is the average net loss for cars damaged in a crash?
+* How many days, on average, did it take for the cars to get repaired?

@@ -86,6 +86,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#discussion-break" id="toc-discussion-break" class="nav-link" data-scroll-target="#discussion-break"><span class="header-section-number">4</span> Discussion break</a></li>
   <li><a href="#who-did-you-text-the-most-in-this-time-period" id="toc-who-did-you-text-the-most-in-this-time-period" class="nav-link" data-scroll-target="#who-did-you-text-the-most-in-this-time-period"><span class="header-section-number">5</span> Who did you text the most in this time period?</a></li>
   <li><a href="#what-would-a-simple-bar-chart-of-topics-look-like" id="toc-what-would-a-simple-bar-chart-of-topics-look-like" class="nav-link" data-scroll-target="#what-would-a-simple-bar-chart-of-topics-look-like"><span class="header-section-number">6</span> What would a simple bar chart of topics look like ?</a></li>
+  <li><a href="#now-that-weve-done-some-basic-analysis-and-used-some-r-functions-lets-shift-to-our-journalism.-what-are-questions-you-have-for-the-police-crash-dataset" id="toc-now-that-weve-done-some-basic-analysis-and-used-some-r-functions-lets-shift-to-our-journalism.-what-are-questions-you-have-for-the-police-crash-dataset" class="nav-link" data-scroll-target="#now-that-weve-done-some-basic-analysis-and-used-some-r-functions-lets-shift-to-our-journalism.-what-are-questions-you-have-for-the-police-crash-dataset"><span class="header-section-number">7</span> Now that we’ve done some basic analysis and used some R functions, let’s shift to our journalism. What are questions you have for the police crash dataset?</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="basic_data.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="basic_data.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></nav>
 </div>
@@ -153,7 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>install.packages("tidyverse") #Comment here</code></li>
 <li><code>library("tidyverse") #Comment here</code></li>
 <li><code>install.packages("ggplot2") #Comment here</code></li>
-<li><code>library("ggplot2") #Comment here</code></li>
+<li><code>library("ggplot2") #loads ggplot to my rstudio</code></li>
 <li><code>all_texts %&gt;% nrow() #Comment here</code></li>
 <li><code>all_texts %&gt;% glimpse() #Comment here</code></li>
 <li><code>all_texts %&gt;% count(person) #Comment here</code></li>
@@ -165,7 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>What is a %&gt;% ? What does it do?<br>
 </li>
-<li>Write a question here, in simple English, that describes what #8 answers for us:</li>
+<li>Write a question here, in simple English, that describes what #8 answers for us: How many times does xxxx appear as a topic in this dataset? How many ‘fun’ texts did I send or receive throughout my few days of self-tracking texts?</li>
 </ul>
 </section>
 <section id="who-did-you-text-the-most-in-this-time-period" class="level2" data-number="5">
@@ -183,8 +184,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3    Sam 29
 4 Sister 13</code></pre>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>most_texts <span class="ot">&lt;-</span> all_texts <span class="sc">%&gt;%</span> <span class="fu">filter</span>(person <span class="sc">==</span> <span class="st">"Sam"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">glimpse</span>(most_texts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 29
+Columns: 6
+$ ID          &lt;int&gt; 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34…
+$ person      &lt;chr&gt; "Sam", "Sam", "Sam", "Sam", "Sam", "Sam", "Sam", "Sam", "S…
+$ action      &lt;chr&gt; "Received", "Received", "Received", "Sent", "Sent", "Recei…
+$ day         &lt;chr&gt; "Saturday", "Saturday", "Saturday", "Saturday", "Saturday"…
+$ time_of_day &lt;chr&gt; "Afternoon", "Afternoon", "Afternoon", "Night", "Night", "…
+$ topic       &lt;chr&gt; "health", "family", "family", "family", "family", "family"…</code></pre>
 </div>
-<p>Based on this breakdown, your answer is: _______.</p>
+</div>
+<p>Based on this breakdown, your answer is: Sam.</p>
 <p>Discuss with your partner: how would you put any row of data where the ‘person’ is the above person into its own variable called ‘most_texts’? <strong>Hint: research how <code>filter</code> works.</strong> How would you check if you did this correctly? Once we know how to do this, we’ll add the correct line of code to the above code chunk.</p>
 </section>
 <section id="what-would-a-simple-bar-chart-of-topics-look-like" class="level2" data-number="6">
@@ -192,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> all_texts, <span class="fu">aes</span>(<span class="at">y=</span>topic)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"maroon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> all_texts, <span class="fu">aes</span>(<span class="at">y=</span>topic)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"maroon"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-bar" class="quarto-figure quarto-figure-center anchored">
@@ -204,6 +220,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>What is one takeaway for you from <a href="#fig-bar">Figure&nbsp;1</a>?</p>
+</section>
+<section id="now-that-weve-done-some-basic-analysis-and-used-some-r-functions-lets-shift-to-our-journalism.-what-are-questions-you-have-for-the-police-crash-dataset" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="now-that-weve-done-some-basic-analysis-and-used-some-r-functions-lets-shift-to-our-journalism.-what-are-questions-you-have-for-the-police-crash-dataset"><span class="header-section-number">7</span> Now that we’ve done some basic analysis and used some R functions, let’s shift to our journalism. What are questions you have for the police crash dataset?</h2>
+<ul>
+<li>In categories with many blanks such as Grand Total, Net Loss, Loss, Insured, Appraisal Fee, what percentage of the responses are left blank or void?</li>
+<li>What month do the majority of these incidents occur in? (perhaps is could be seasonally related)</li>
+<li>What rank has acquired the most crashes (sergeant, officer, lieutenant)?</li>
+<li>How many officers were on duty vs.&nbsp;off duty while they crashed?</li>
+<li>How many police officers were in multiple accidents?</li>
+<li>Which police officer is involved in the most crashes?</li>
+<li>During what time of day do we see the least number of crashes?</li>
+<li>How many cases go over $500 worth of damage?</li>
+<li>What was the most issued penalty (what repercussions did the officers face) and how major depending on the accident severity?</li>
+<li>Has the rate of police vehicle crashes risen or fallen over time? (This can be analyzed by looking at the date column and categorizing the crashes by month or year to determine a point in time when the most crashes occurred, any irregularities in the data over time, or trends over time)</li>
+<li>What is the average net loss for cars damaged in a crash?</li>
+<li>How many days, on average, did it take for the cars to get repaired?</li>
+</ul>
 <!-- -->
 
 </section>
@@ -494,97 +527,113 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">---</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="an">title:</span><span class="co"> "Basic Data Analysis"</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="an">author:</span><span class="co"> "Nausheen Husain"</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="an">toc:</span><span class="co"> true</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="an">format:</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">  html:</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">    theme: default</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">    code-fold: true</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">    code-tools: true</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">    code-line-numbers: true</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">  pdf:</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">    geometry: </span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">      - top=30mm</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">      - left=30mm</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">  docx: default</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="an">project:</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="co">  type: website</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="co">  output-dir: docs</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="co">---</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a></span>
-<span id="cb7-22"><a href="#cb7-22"></a><span class="fu">## Introduction</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a></span>
-<span id="cb7-24"><a href="#cb7-24"></a>In this document, we'll mess around with R, Quarto and basic data analysis. We'll be using the R libraries <span class="in">`tidyverse`</span> and <span class="in">`ggplot2`</span> to ask and answer basic questions about our datasets.  </span>
-<span id="cb7-25"><a href="#cb7-25"></a></span>
-<span id="cb7-26"><a href="#cb7-26"></a>The data I'm using was collected by me on Saturday, October 7, the first day of fall break, and it includes the day, time of day, person, and topic of each text I sent or received that day. The data was originally collected in a <span class="co">[</span><span class="ot">Google Sheet</span><span class="co">](https://docs.google.com/spreadsheets/d/1cDlV0KA-kxuWcnsTHyYITlEchKk3_E50md-vvxsHXBA/edit#gid=0)</span>. Your data should have the same format though the time frame may be different. **Add a link to your Google Sheet here.**</span>
-<span id="cb7-27"><a href="#cb7-27"></a></span>
-<span id="cb7-28"><a href="#cb7-28"></a></span>
-<span id="cb7-31"><a href="#cb7-31"></a><span class="in">```{r}</span></span>
-<span id="cb7-32"><a href="#cb7-32"></a><span class="co">#| label: load-pkgs</span></span>
-<span id="cb7-33"><a href="#cb7-33"></a><span class="co">#| code-summary: "Packages"</span></span>
-<span id="cb7-34"><a href="#cb7-34"></a><span class="co">#| message: false</span></span>
-<span id="cb7-35"><a href="#cb7-35"></a></span>
-<span id="cb7-36"><a href="#cb7-36"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-37"><a href="#cb7-37"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb7-38"><a href="#cb7-38"></a><span class="in">```</span></span>
-<span id="cb7-39"><a href="#cb7-39"></a></span>
-<span id="cb7-40"><a href="#cb7-40"></a><span class="fu">## Securing our data</span></span>
-<span id="cb7-41"><a href="#cb7-41"></a></span>
-<span id="cb7-44"><a href="#cb7-44"></a><span class="in">```{r}</span></span>
-<span id="cb7-45"><a href="#cb7-45"></a><span class="co">#| label: data-head</span></span>
-<span id="cb7-46"><a href="#cb7-46"></a></span>
-<span id="cb7-47"><a href="#cb7-47"></a>all_texts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"text_data.csv"</span>,<span class="at">stringsAsFactors=</span>F) <span class="co">#this sets my data file to live within a variable called all_texts</span></span>
-<span id="cb7-48"><a href="#cb7-48"></a><span class="fu">head</span>(all_texts) <span class="co">#this command shows us the 'head' of all_texts -- the first few rows of the data</span></span>
-<span id="cb7-49"><a href="#cb7-49"></a></span>
-<span id="cb7-50"><a href="#cb7-50"></a><span class="in">```</span></span>
-<span id="cb7-51"><a href="#cb7-51"></a></span>
-<span id="cb7-52"><a href="#cb7-52"></a>The above code imports my CSV into the universe of this R file -- now the R file can read and use this data. Above is the 'head' of the data: the first few rows of it. Because this file and your text data are both saved to your Desktop, the first few rows of your data should show up here.</span>
-<span id="cb7-53"><a href="#cb7-53"></a></span>
-<span id="cb7-54"><a href="#cb7-54"></a><span class="fu">## Examining our data: work in pairs</span></span>
-<span id="cb7-55"><a href="#cb7-55"></a>Sometimes we don't want to display something on our Viewer, we just want more information about our data. R allows you to do some basic data interviewing with just one line of code at a time. Type the following lines of code (the text before the #), one at a time, in your console. Compare what you get with a partner. To the right of the #, where it says "Comment here," comment what you and your partner think each line of code does, based on what happens in your console. </span>
-<span id="cb7-56"><a href="#cb7-56"></a>**Important: do not copy and paste. Type the code into the console, one by one. Take your time, and make sure your partner is on the same page as you.**</span>
-<span id="cb7-57"><a href="#cb7-57"></a></span>
-<span id="cb7-58"><a href="#cb7-58"></a><span class="ss">1. </span><span class="in">` install.packages("tidyverse") #Comment here `</span></span>
-<span id="cb7-59"><a href="#cb7-59"></a><span class="ss">2. </span><span class="in">` library("tidyverse") #Comment here `</span></span>
-<span id="cb7-60"><a href="#cb7-60"></a><span class="ss">3. </span><span class="in">` install.packages("ggplot2") #Comment here `</span></span>
-<span id="cb7-61"><a href="#cb7-61"></a><span class="ss">4. </span><span class="in">` library("ggplot2") #Comment here `</span></span>
-<span id="cb7-62"><a href="#cb7-62"></a><span class="ss">5. </span><span class="in">` all_texts %&gt;% nrow() #Comment here `</span></span>
-<span id="cb7-63"><a href="#cb7-63"></a><span class="ss">6. </span><span class="in">` all_texts %&gt;% glimpse() #Comment here `</span></span>
-<span id="cb7-64"><a href="#cb7-64"></a><span class="ss">7. </span><span class="in">` all_texts %&gt;% count(person) #Comment here `</span></span>
-<span id="cb7-65"><a href="#cb7-65"></a><span class="ss">8. </span><span class="in">` all_texts %&gt;% filter(topic == "INSERT ONE OF YOUR TOPICS FROM YOUR DATA HERE") %&gt;% count() #Comment here `</span></span>
-<span id="cb7-66"><a href="#cb7-66"></a></span>
-<span id="cb7-67"><a href="#cb7-67"></a><span class="fu">## Discussion break</span></span>
-<span id="cb7-68"><a href="#cb7-68"></a><span class="ss">* </span>What is a %&gt;% ? What does it do?  </span>
-<span id="cb7-69"><a href="#cb7-69"></a><span class="ss">* </span>Write a question here, in simple English, that describes what #8 answers for us:  </span>
-<span id="cb7-70"><a href="#cb7-70"></a></span>
-<span id="cb7-71"><a href="#cb7-71"></a><span class="fu">## Who did you text the most in this time period?</span></span>
-<span id="cb7-72"><a href="#cb7-72"></a>One of our prompts above answers this question. Let's write a R code chunk to make it show up in our Viewer:</span>
-<span id="cb7-73"><a href="#cb7-73"></a></span>
-<span id="cb7-76"><a href="#cb7-76"></a><span class="in">```{r}</span></span>
-<span id="cb7-77"><a href="#cb7-77"></a><span class="co">#| label: most-texts</span></span>
-<span id="cb7-78"><a href="#cb7-78"></a></span>
-<span id="cb7-79"><a href="#cb7-79"></a>all_texts <span class="sc">%&gt;%</span> <span class="fu">count</span>(person)</span>
-<span id="cb7-80"><a href="#cb7-80"></a></span>
-<span id="cb7-81"><a href="#cb7-81"></a><span class="in">```</span></span>
-<span id="cb7-82"><a href="#cb7-82"></a></span>
-<span id="cb7-83"><a href="#cb7-83"></a>Based on this breakdown, your answer is: _______.</span>
-<span id="cb7-84"><a href="#cb7-84"></a></span>
-<span id="cb7-85"><a href="#cb7-85"></a>Discuss with your partner: how would you put any row of data where the 'person' is the above person into its own variable called 'most_texts'? **Hint: research how `filter` works.** How would you check if you did this correctly? Once we know how to do this, we'll add the correct line of code to the above code chunk.</span>
-<span id="cb7-86"><a href="#cb7-86"></a></span>
-<span id="cb7-87"><a href="#cb7-87"></a><span class="fu">## What would a simple bar chart of topics look like ?</span></span>
-<span id="cb7-88"><a href="#cb7-88"></a></span>
-<span id="cb7-91"><a href="#cb7-91"></a><span class="in">```{r}</span></span>
-<span id="cb7-92"><a href="#cb7-92"></a><span class="co">#| label: fig-bar</span></span>
-<span id="cb7-93"><a href="#cb7-93"></a><span class="co">#| fig-cap: "Texts from Saturday by topic"</span></span>
-<span id="cb7-94"><a href="#cb7-94"></a></span>
-<span id="cb7-95"><a href="#cb7-95"></a><span class="fu">ggplot</span>(<span class="at">data =</span> all_texts, <span class="fu">aes</span>(<span class="at">y=</span>topic)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"maroon"</span>)</span>
-<span id="cb7-96"><a href="#cb7-96"></a></span>
-<span id="cb7-97"><a href="#cb7-97"></a><span class="in">```</span></span>
-<span id="cb7-98"><a href="#cb7-98"></a></span>
-<span id="cb7-99"><a href="#cb7-99"></a>What is one takeaway for you from @fig-bar?</span>
+<div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="an">title:</span><span class="co"> "Basic Data Analysis"</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="an">author:</span><span class="co"> "Nausheen Husain"</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="an">number-sections:</span><span class="co"> true</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="an">format:</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">  html:</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">    theme: default</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co">    code-fold: true</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="co">    code-tools: true</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co">    code-line-numbers: true</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">  pdf:</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">    geometry: </span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">      - top=30mm</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co">      - left=30mm</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="co">  docx: default</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="an">project:</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">  type: website</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co">  output-dir: docs</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="co">---</span></span>
+<span id="cb9-21"><a href="#cb9-21"></a></span>
+<span id="cb9-22"><a href="#cb9-22"></a><span class="fu">## Introduction</span></span>
+<span id="cb9-23"><a href="#cb9-23"></a></span>
+<span id="cb9-24"><a href="#cb9-24"></a>In this document, we'll mess around with R, Quarto and basic data analysis. We'll be using the R libraries <span class="in">`tidyverse`</span> and <span class="in">`ggplot2`</span> to ask and answer basic questions about our datasets.  </span>
+<span id="cb9-25"><a href="#cb9-25"></a></span>
+<span id="cb9-26"><a href="#cb9-26"></a>The data I'm using was collected by me on Saturday, October 7, the first day of fall break, and it includes the day, time of day, person, and topic of each text I sent or received that day. The data was originally collected in a <span class="co">[</span><span class="ot">Google Sheet</span><span class="co">](https://docs.google.com/spreadsheets/d/1cDlV0KA-kxuWcnsTHyYITlEchKk3_E50md-vvxsHXBA/edit#gid=0)</span>. Your data should have the same format though the time frame may be different. **Add a link to your Google Sheet here.**</span>
+<span id="cb9-27"><a href="#cb9-27"></a></span>
+<span id="cb9-28"><a href="#cb9-28"></a></span>
+<span id="cb9-31"><a href="#cb9-31"></a><span class="in">```{r}</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a><span class="co">#| label: load-pkgs</span></span>
+<span id="cb9-33"><a href="#cb9-33"></a><span class="co">#| code-summary: "Packages"</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a><span class="co">#| message: false</span></span>
+<span id="cb9-35"><a href="#cb9-35"></a></span>
+<span id="cb9-36"><a href="#cb9-36"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-37"><a href="#cb9-37"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-38"><a href="#cb9-38"></a><span class="in">```</span></span>
+<span id="cb9-39"><a href="#cb9-39"></a></span>
+<span id="cb9-40"><a href="#cb9-40"></a><span class="fu">## Securing our data</span></span>
+<span id="cb9-41"><a href="#cb9-41"></a></span>
+<span id="cb9-44"><a href="#cb9-44"></a><span class="in">```{r}</span></span>
+<span id="cb9-45"><a href="#cb9-45"></a><span class="co">#| label: data-head</span></span>
+<span id="cb9-46"><a href="#cb9-46"></a></span>
+<span id="cb9-47"><a href="#cb9-47"></a>all_texts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"text_data.csv"</span>,<span class="at">stringsAsFactors=</span>F) <span class="co">#this sets my data file to live within a variable called all_texts</span></span>
+<span id="cb9-48"><a href="#cb9-48"></a><span class="fu">head</span>(all_texts) <span class="co">#this command shows us the 'head' of all_texts -- the first few rows of the data</span></span>
+<span id="cb9-49"><a href="#cb9-49"></a></span>
+<span id="cb9-50"><a href="#cb9-50"></a><span class="in">```</span></span>
+<span id="cb9-51"><a href="#cb9-51"></a></span>
+<span id="cb9-52"><a href="#cb9-52"></a>The above code imports my CSV into the universe of this R file -- now the R file can read and use this data. Above is the 'head' of the data: the first few rows of it. Because this file and your text data are both saved to your Desktop, the first few rows of your data should show up here.</span>
+<span id="cb9-53"><a href="#cb9-53"></a></span>
+<span id="cb9-54"><a href="#cb9-54"></a><span class="fu">## Examining our data: work in pairs</span></span>
+<span id="cb9-55"><a href="#cb9-55"></a>Sometimes we don't want to display something on our Viewer, we just want more information about our data. R allows you to do some basic data interviewing with just one line of code at a time. Type the following lines of code (the text before the #), one at a time, in your console. Compare what you get with a partner. To the right of the #, where it says "Comment here," comment what you and your partner think each line of code does, based on what happens in your console. </span>
+<span id="cb9-56"><a href="#cb9-56"></a>**Important: do not copy and paste. Type the code into the console, one by one. Take your time, and make sure your partner is on the same page as you.**</span>
+<span id="cb9-57"><a href="#cb9-57"></a></span>
+<span id="cb9-58"><a href="#cb9-58"></a><span class="ss">1. </span><span class="in">` install.packages("tidyverse") #Comment here `</span></span>
+<span id="cb9-59"><a href="#cb9-59"></a><span class="ss">2. </span><span class="in">` library("tidyverse") #Comment here `</span></span>
+<span id="cb9-60"><a href="#cb9-60"></a><span class="ss">3. </span><span class="in">` install.packages("ggplot2") #Comment here `</span></span>
+<span id="cb9-61"><a href="#cb9-61"></a><span class="ss">4. </span><span class="in">` library("ggplot2") #loads ggplot to my rstudio `</span></span>
+<span id="cb9-62"><a href="#cb9-62"></a><span class="ss">5. </span><span class="in">` all_texts %&gt;% nrow() #Comment here `</span></span>
+<span id="cb9-63"><a href="#cb9-63"></a><span class="ss">6. </span><span class="in">` all_texts %&gt;% glimpse() #Comment here `</span></span>
+<span id="cb9-64"><a href="#cb9-64"></a><span class="ss">7. </span><span class="in">` all_texts %&gt;% count(person) #Comment here `</span></span>
+<span id="cb9-65"><a href="#cb9-65"></a><span class="ss">8. </span><span class="in">` all_texts %&gt;% filter(topic == "INSERT ONE OF YOUR TOPICS FROM YOUR DATA HERE") %&gt;% count() #Comment here `</span></span>
+<span id="cb9-66"><a href="#cb9-66"></a></span>
+<span id="cb9-67"><a href="#cb9-67"></a><span class="fu">## Discussion break</span></span>
+<span id="cb9-68"><a href="#cb9-68"></a><span class="ss">* </span>What is a %&gt;% ? What does it do?  </span>
+<span id="cb9-69"><a href="#cb9-69"></a><span class="ss">* </span>Write a question here, in simple English, that describes what #8 answers for us: How many times does xxxx appear as a topic in this dataset? How many 'fun' texts did I send or receive throughout my few days of self-tracking texts?</span>
+<span id="cb9-70"><a href="#cb9-70"></a></span>
+<span id="cb9-71"><a href="#cb9-71"></a><span class="fu">## Who did you text the most in this time period?</span></span>
+<span id="cb9-72"><a href="#cb9-72"></a>One of our prompts above answers this question. Let's write a R code chunk to make it show up in our Viewer:</span>
+<span id="cb9-73"><a href="#cb9-73"></a></span>
+<span id="cb9-76"><a href="#cb9-76"></a><span class="in">```{r}</span></span>
+<span id="cb9-77"><a href="#cb9-77"></a><span class="co">#| label: most-texts</span></span>
+<span id="cb9-78"><a href="#cb9-78"></a></span>
+<span id="cb9-79"><a href="#cb9-79"></a>all_texts <span class="sc">%&gt;%</span> <span class="fu">count</span>(person)</span>
+<span id="cb9-80"><a href="#cb9-80"></a>most_texts <span class="ot">&lt;-</span> all_texts <span class="sc">%&gt;%</span> <span class="fu">filter</span>(person <span class="sc">==</span> <span class="st">"Sam"</span>)</span>
+<span id="cb9-81"><a href="#cb9-81"></a><span class="fu">glimpse</span>(most_texts)</span>
+<span id="cb9-82"><a href="#cb9-82"></a><span class="in">```</span></span>
+<span id="cb9-83"><a href="#cb9-83"></a></span>
+<span id="cb9-84"><a href="#cb9-84"></a>Based on this breakdown, your answer is: Sam.</span>
+<span id="cb9-85"><a href="#cb9-85"></a></span>
+<span id="cb9-86"><a href="#cb9-86"></a>Discuss with your partner: how would you put any row of data where the 'person' is the above person into its own variable called 'most_texts'? **Hint: research how `filter` works.** How would you check if you did this correctly? Once we know how to do this, we'll add the correct line of code to the above code chunk.</span>
+<span id="cb9-87"><a href="#cb9-87"></a></span>
+<span id="cb9-88"><a href="#cb9-88"></a><span class="fu">## What would a simple bar chart of topics look like ?</span></span>
+<span id="cb9-89"><a href="#cb9-89"></a></span>
+<span id="cb9-92"><a href="#cb9-92"></a><span class="in">```{r}</span></span>
+<span id="cb9-93"><a href="#cb9-93"></a><span class="co">#| label: fig-bar</span></span>
+<span id="cb9-94"><a href="#cb9-94"></a><span class="co">#| fig-cap: "Texts from Saturday by topic"</span></span>
+<span id="cb9-95"><a href="#cb9-95"></a></span>
+<span id="cb9-96"><a href="#cb9-96"></a><span class="fu">ggplot</span>(<span class="at">data =</span> all_texts, <span class="fu">aes</span>(<span class="at">y=</span>topic)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"maroon"</span>)</span>
+<span id="cb9-97"><a href="#cb9-97"></a></span>
+<span id="cb9-98"><a href="#cb9-98"></a><span class="in">```</span></span>
+<span id="cb9-99"><a href="#cb9-99"></a></span>
+<span id="cb9-100"><a href="#cb9-100"></a>What is one takeaway for you from @fig-bar?</span>
+<span id="cb9-101"><a href="#cb9-101"></a></span>
+<span id="cb9-102"><a href="#cb9-102"></a></span>
+<span id="cb9-103"><a href="#cb9-103"></a><span class="fu">## Now that we've done some basic analysis and used some R functions, let's shift to our journalism. What are questions you have for the police crash dataset?</span></span>
+<span id="cb9-104"><a href="#cb9-104"></a><span class="ss">* </span>In categories with many blanks such as Grand Total, Net Loss, Loss, Insured, Appraisal Fee, what percentage of the responses are left blank or void?</span>
+<span id="cb9-105"><a href="#cb9-105"></a><span class="ss">* </span>What month do the majority of these incidents occur in? (perhaps is could be seasonally related)</span>
+<span id="cb9-106"><a href="#cb9-106"></a><span class="ss">* </span>What rank has acquired the most crashes (sergeant, officer, lieutenant)?</span>
+<span id="cb9-107"><a href="#cb9-107"></a><span class="ss">* </span>How many officers were on duty vs. off duty while they crashed?</span>
+<span id="cb9-108"><a href="#cb9-108"></a><span class="ss">* </span>How many police officers were in multiple accidents?</span>
+<span id="cb9-109"><a href="#cb9-109"></a><span class="ss">* </span>Which police officer is involved in the most crashes?</span>
+<span id="cb9-110"><a href="#cb9-110"></a><span class="ss">* </span>During what time of day do we see the least number of crashes?</span>
+<span id="cb9-111"><a href="#cb9-111"></a><span class="ss">* </span>How many cases go over $500 worth of damage?</span>
+<span id="cb9-112"><a href="#cb9-112"></a><span class="ss">* </span>What was the most issued penalty (what repercussions did the officers face) and how major depending on the accident severity? </span>
+<span id="cb9-113"><a href="#cb9-113"></a><span class="ss">* </span>Has the rate of police vehicle crashes risen or fallen over time? (This can be analyzed by looking at the date column and categorizing the crashes by month or year to determine a point in time when the most crashes occurred, any irregularities in the data over time, or trends over time)</span>
+<span id="cb9-114"><a href="#cb9-114"></a><span class="ss">* </span>What is the average net loss for cars damaged in a crash?</span>
+<span id="cb9-115"><a href="#cb9-115"></a><span class="ss">* </span>How many days, on average, did it take for the cars to get repaired?</span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
